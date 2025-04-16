@@ -34,6 +34,7 @@ Este repositório contém um guia completo e passo a passo para configurar um am
     - [Configuração:](#configuração)
     - [Verificação:](#verificação-1)
   - [🧠 Integração com IDE (VSCode)](#-integração-com-ide-vscode)
+  - [🛠️ Configurando o Pyenv no Projeto](#️-configurando-o-pyenv-no-projeto)
   - [🚧 Criando um Projeto com Poetry](#-criando-um-projeto-com-poetry)
   - [📚 Gerenciando Dependências](#-gerenciando-dependências)
     - [Criando e ativando ambiente virtual:](#criando-e-ativando-ambiente-virtual)
@@ -169,6 +170,43 @@ poetry --version
 1. Crie o projeto e abra com o **VSCode**.
 2. Use `Ctrl + J` para abrir o terminal integrado.
 3. Clique na setinha do terminal e selecione **Ubuntu (WSL)**.
+
+---
+
+## 🛠️ Configurando o Pyenv no Projeto
+
+Com o terminal já aberto no VSCode e o ambiente WSL ativo:
+
+1. Liste todas as versões disponíveis do Python:
+    ```bash
+    pyenv install --list
+    ```
+
+    ⚠️ Se receber um erro como Command 'pyenv' not found, reconfigure o PATH temporariamente com os comandos abaixo no mesmo terminal:
+
+    ```bash
+    export PYENV_ROOT="$HOME/.pyenv"
+    export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init --path)"
+    eval "$(pyenv init -)"
+    ```
+
+2. Escolha uma versão e instale, por exemplo:
+    ```bash
+    pyenv install 3.7.0
+    ```
+
+3. Verifique se a instalação foi concluída com sucesso:
+    ```bash
+    pyenv versions
+    ```
+
+4. Configure o Python local para o projeto atual:
+    ```bash
+    pyenv local 3.7.0
+    ```
+
+    Isso criará um arquivo `.python-version` no diretório atual, indicando que o projeto está usando essa versão do Python.
 
 ---
 
