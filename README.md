@@ -247,4 +247,4 @@ poetry run python meu_codigo.py
 
 ---
 
-Feito com 💻 e café por Você
+Feito com 💻 e café por Ruben Adriel
