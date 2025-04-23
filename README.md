@@ -87,8 +87,6 @@ wsl --shutdown
 wsl -d Ubuntu
 ```
 
-Instale o Docker Compose:
-
 Teste com:
 
 ```bash
@@ -278,6 +276,7 @@ poetry run python meu_codigo.py
 ### Exemplo de docker-compose:
 
 1. No diretorio crie um arquivo `docker-compose.yml` e adicione algo semelhante ao abaixo dentro dele:
+
   ```yml
   version: '3.9'
 
@@ -298,6 +297,7 @@ poetry run python meu_codigo.py
   ```
 
 2. Crie um arquivo `Dockerfile` e adicione algo semelhante ao abaixo dentro dele:
+
   ```
   # Escolha a versão do Python que desejar
   FROM python:3.7-slim-buster 
@@ -334,6 +334,7 @@ poetry run python meu_codigo.py
   ```
 
 3. Rode o comando para subir o conteiner. Se não precisar reconstruir a imagem então não precisa do `--build`:
+
    ```bash
    docker compose up --build
    ```
