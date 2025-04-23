@@ -11,6 +11,7 @@ Este repositório contém um guia completo e passo a passo para configurar um am
 - Docker & Docker Compose
 - Pyenv
 - Poetry
+- Git
 - Python 3.x
 - Visual Studio Code (opcional)
 
@@ -40,6 +41,7 @@ Este repositório contém um guia completo e passo a passo para configurar um am
     - [Criando e ativando ambiente virtual:](#criando-e-ativando-ambiente-virtual)
     - [Adicionando dependências:](#adicionando-dependências)
     - [Instalando todas as dependências do projeto:](#instalando-todas-as-dependências-do-projeto)
+    - [Reescreva o arquivo poetry.lock:](#reescreva-o-arquivo-poetrylock)
   - [▶️ Executando o Projeto](#️-executando-o-projeto)
   - [✅ Verificação rápida](#-verificação-rápida)
   - [🧠 Extras](#-extras)
@@ -73,9 +75,9 @@ Este repositório contém um guia completo e passo a passo para configurar um am
 ## 🐳 Instalação do Docker
 
 ```bash
-sudo apt install docker.io -y
-sudo service docker start
+sudo apt install docker.io docker-compose-plugin
 sudo usermod -aG docker $USER
+newgrp docker
 ```
 
 Reinicie o WSL:
@@ -86,12 +88,6 @@ wsl -d Ubuntu
 ```
 
 Instale o Docker Compose:
-
-```bash
-mkdir -p ~/.docker/cli-plugins/
-curl -SL https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
-chmod +x ~/.docker/cli-plugins/docker-compose
-```
 
 Teste com:
 
@@ -120,13 +116,26 @@ git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 
 ### Configuração no shell:
 
-```bash
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
-eval "$(pyenv init -)"
-source ~/.bashrc
-```
+1. Abra o arquivo de configuração do shell:
+
+    ````bash
+    nano ~/.bashrc
+    ````
+
+2. Adicione os comandos do pyenv ao arquivo: No final do arquivo, adicione as seguintes linhas:
+
+    ```bash
+    export PYENV_ROOT="$HOME/.pyenv"
+    export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init --path)"
+    eval "$(pyenv init -)"
+    ```
+
+3. Salve o aruivo apertando:
+
+    - `CTRL + O`
+    - `Enter`
+    - `CTRL + X`
 
 ### Verificação:
 
@@ -182,15 +191,6 @@ Com o terminal já aberto no VSCode e o ambiente WSL ativo:
     pyenv install --list
     ```
 
-    ⚠️ Se receber um erro como Command 'pyenv' not found, reconfigure o PATH temporariamente com os comandos abaixo no mesmo terminal:
-
-    ```bash
-    export PYENV_ROOT="$HOME/.pyenv"
-    export PATH="$PYENV_ROOT/bin:$PATH"
-    eval "$(pyenv init --path)"
-    eval "$(pyenv init -)"
-    ```
-
 2. Escolha uma versão e instale, por exemplo:
     ```bash
     pyenv install 3.7.0
@@ -214,8 +214,6 @@ Com o terminal já aberto no VSCode e o ambiente WSL ativo:
 
 ```bash
 poetry new project-test
-cd project-test
-mv ../.python-version .
 ```
 
 Edite o `pyproject.toml` com as informações do seu projeto e pacote principal.
@@ -238,11 +236,17 @@ packages = [{ include = "app" }]
 ## 📚 Gerenciando Dependências
 
 ### Criando e ativando ambiente virtual:
+1. Baixe o poetry shell:
 
-```bash
-poetry env use python
-poetry env activate
-```
+    ```bash
+    poetry self add poetry-plugin-shell
+    ```
+
+1. Ative o ambiente virtual:
+
+    ```bash
+    poetry shell
+    ```
 
 ### Adicionando dependências:
 
@@ -256,6 +260,12 @@ poetry add "requests<2.28"
 poetry install
 ```
 
+### Reescreva o arquivo poetry.lock:
+
+```bash
+poetry lock
+```
+
 ---
 
 ## ▶️ Executando o Projeto
@@ -263,6 +273,70 @@ poetry install
 ```bash
 poetry run python meu_codigo.py
 ```
+---
+
+### Exemplo de docker-compose:
+
+1. No diretorio crie um arquivo `docker-compose.yml` e adicione algo semelhante ao abaixo dentro dele:
+  ```yml
+  version: '3.9'
+
+  services:
+    api:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      container_name: project-test # Aqui coloque o nome que deseja dar ao container
+      ports:
+        - "5000:5000" # Aqui coloque a porta que deseja mapear, se for a 8000, use 8000:8000
+      env_file:
+        - .env # Aqui coloque o caminho para o arquivo .env se tiver
+      volumes:
+        - .:/app # Aqui coloque o caminho para o projeto
+      command: python run.py
+      restart: unless-stopped
+  ```
+
+2. Crie um arquivo `Dockerfile` e adicione algo semelhante ao abaixo dentro dele:
+  ```
+  # Escolha a versão do Python que desejar
+  FROM python:3.7-slim-buster 
+  
+  # Instala as dependências do sistema
+  RUN apt-get update && \
+      apt-get install -y \
+      build-essential gcc libffi-dev libssl-dev && \
+      rm -rf /var/lib/apt/lists/*
+  
+  RUN apt-get update && apt-get install -y gcc g++ libffi-dev libssl-dev
+  
+  # Cria o diretório de trabalho
+  
+  WORKDIR /app
+  
+  # Copia o arquivo requirements.txt e instala as dependências
+  
+  COPY requirements.txt .
+  RUN python -m pip install --upgrade pip
+  RUN pip install --no-cache-dir -r requirements.txt
+  
+  # Copia o restante do projeto
+  
+  COPY . .
+  
+  # Expose a porta 5000
+  
+  EXPOSE 5000
+  
+  # Comando para executar o projeto
+  
+  CMD ["python", "run.py"]
+  ```
+
+3. Rode o comando para subir o conteiner. Se não precisar reconstruir a imagem então não precisa do `--build`:
+   ```bash
+   docker compose up --build
+   ```
 
 ---
 
