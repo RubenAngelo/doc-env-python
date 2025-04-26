@@ -240,6 +240,22 @@ git --version
   git commit
   ```
 
+- **Revertendo commits**:
+  ```bash
+  git revert id-do-commit
+  ```
+
+- **Resetando commits**:
+  ```bash
+  git reset --hard id-do-commit-anterior
+  ```
+
+- **Alterando commits**:
+  ```bash
+  git commit --amend -m "Descrição da alteração"
+  ```
+
+
 ---
 
 ## 🧠 Integração com VSCode
