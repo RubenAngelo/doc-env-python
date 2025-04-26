@@ -1,11 +1,10 @@
+# ⚙️ Desenvolvimento Python com WSL, Docker, Pyenv, Poetry e Git
 
-# ⚙️ Ambiente de Desenvolvimento com WSL, Docker, Pyenv e Poetry
-
-Este repositório contém um guia completo e passo a passo para configurar um ambiente de desenvolvimento Python usando **WSL (Ubuntu)**, **Docker**, **pyenv** e **Poetry**.
+Guia completo para configurar um ambiente de desenvolvimento Python usando **WSL (Ubuntu)**, **Docker**, **Pyenv**, **Poetry**, e **Git**. Inclui instruções para configurar o ambiente e comandos Git essenciais para o dia a dia.
 
 ---
 
-## 📦 Tecnologias Utilizadas
+## 📦 Tecnologias
 
 - WSL 2 (Ubuntu)
 - Docker & Docker Compose
@@ -19,86 +18,87 @@ Este repositório contém um guia completo e passo a passo para configurar um am
 
 ## 📖 Índice
 
-- [⚙️ Ambiente de Desenvolvimento com WSL, Docker, Pyenv e Poetry](#️-ambiente-de-desenvolvimento-com-wsl-docker-pyenv-e-poetry)
-  - [📦 Tecnologias Utilizadas](#-tecnologias-utilizadas)
+- [⚙️ Desenvolvimento Python com WSL, Docker, Pyenv, Poetry e Git](#️-desenvolvimento-python-com-wsl-docker-pyenv-poetry-e-git)
+  - [📦 Tecnologias](#-tecnologias)
   - [📖 Índice](#-índice)
-  - [🔧 Instalação do WSL](#-instalação-do-wsl)
-  - [🐳 Instalação do Docker](#-instalação-do-docker)
-  - [🐍 Instalação do Pyenv](#-instalação-do-pyenv)
-    - [Dependências:](#dependências)
-    - [Instalação:](#instalação)
-    - [Configuração no shell:](#configuração-no-shell)
-    - [Verificação:](#verificação)
-  - [📦 Instalação do Poetry](#-instalação-do-poetry)
-    - [Dependências:](#dependências-1)
-    - [Instalação:](#instalação-1)
-    - [Configuração:](#configuração)
-    - [Verificação:](#verificação-1)
-  - [🧠 Integração com IDE (VSCode)](#-integração-com-ide-vscode)
-  - [🛠️ Configurando o Pyenv no Projeto](#️-configurando-o-pyenv-no-projeto)
-  - [🚧 Criando um Projeto com Poetry](#-criando-um-projeto-com-poetry)
+  - [🔧 Configuração do WSL](#-configuração-do-wsl)
+  - [🐳 Configuração do Docker](#-configuração-do-docker)
+  - [🐍 Configuração do Pyenv](#-configuração-do-pyenv)
+    - [Dependências](#dependências)
+    - [Instalação](#instalação)
+    - [Configuração no Shell](#configuração-no-shell)
+    - [Verificação](#verificação)
+  - [📦 Configuração do Poetry](#-configuração-do-poetry)
+    - [Dependências](#dependências-1)
+    - [Instalação](#instalação-1)
+    - [Configuração](#configuração)
+    - [Verificação](#verificação-1)
+  - [📂 Configuração do Git](#-configuração-do-git)
+    - [Instalação](#instalação-2)
+    - [Configuração Inicial](#configuração-inicial)
+    - [Comandos Git Essenciais](#comandos-git-essenciais)
+  - [🧠 Integração com VSCode](#-integração-com-vscode)
+  - [🛠️ Configurando o Projeto](#️-configurando-o-projeto)
+  - [🚧 Criando Projeto com Poetry](#-criando-projeto-com-poetry)
   - [📚 Gerenciando Dependências](#-gerenciando-dependências)
-    - [Criando e ativando ambiente virtual:](#criando-e-ativando-ambiente-virtual)
-    - [Adicionando dependências:](#adicionando-dependências)
-    - [Instalando todas as dependências do projeto:](#instalando-todas-as-dependências-do-projeto)
-    - [Reescreva o arquivo poetry.lock:](#reescreva-o-arquivo-poetrylock)
+    - [Ativar Ambiente Virtual](#ativar-ambiente-virtual)
+    - [Adicionar Dependências](#adicionar-dependências)
+    - [Instalar Dependências](#instalar-dependências)
+    - [Atualizar `poetry.lock`](#atualizar-poetrylock)
   - [▶️ Executando o Projeto](#️-executando-o-projeto)
-  - [✅ Verificação rápida](#-verificação-rápida)
+  - [🐳 Docker Compose Exemplo](#-docker-compose-exemplo)
+  - [✅ Verificação Rápida](#-verificação-rápida)
   - [🧠 Extras](#-extras)
 
 ---
 
-## 🔧 Instalação do WSL
+## 🔧 Configuração do WSL
 
-1. Abra o **Prompt de Comando** (não precisa ser como administrador):
-
+1. No Prompt de Comando (não precisa ser administrador):
    ```bash
    wsl --install
    ```
 
-2. Entre no Ubuntu:
-
+2. Acesse o Ubuntu:
    ```bash
    wsl -d Ubuntu
    ```
 
-3. Crie um usuário e senha quando solicitado.
+3. Crie usuário e senha quando solicitado.
 
-4. Atualize os pacotes:
-
+4. Atualize pacotes:
    ```bash
    sudo apt update && sudo apt upgrade -y
    ```
 
 ---
 
-## 🐳 Instalação do Docker
+## 🐳 Configuração do Docker
 
-```bash
-sudo apt install docker.io docker-compose-plugin
-sudo usermod -aG docker $USER
-newgrp docker
-```
+1. Instale Docker e Docker Compose:
+   ```bash
+   sudo apt install -y docker.io docker-compose-plugin
+   sudo usermod -aG docker $USER
+   newgrp docker
+   ```
 
-Reinicie o WSL:
+2. Reinicie o WSL (No prompt do windows fora do WSL):
+   ```bash
+   wsl --shutdown
+   wsl -d Ubuntu
+   ```
 
-```bash
-wsl --shutdown
-wsl -d Ubuntu
-```
-
-Teste com:
-
-```bash
-docker run hello-world
-```
+3. Start e Teste:
+   ```bash
+   sudo service docker start
+   docker run hello-world
+   ```
 
 ---
 
-## 🐍 Instalação do Pyenv
+## 🐍 Configuração do Pyenv
 
-### Dependências:
-
+### Dependências
 ```bash
 sudo apt install -y make build-essential libssl-dev zlib1g-dev \
 libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
@@ -106,160 +106,217 @@ libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev \
 libffi-dev liblzma-dev git
 ```
 
-### Instalação:
-
+### Instalação
 ```bash
 git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 ```
 
-### Configuração no shell:
+### Configuração no Shell
+1. Edite `~/.bashrc`:
+   ```bash
+   nano ~/.bashrc
+   ```
 
-1. Abra o arquivo de configuração do shell:
+2. Adicione ao final:
+   ```bash
+   export PYENV_ROOT="$HOME/.pyenv"
+   export PATH="$PYENV_ROOT/bin:$PATH"
+   eval "$(pyenv init --path)"
+   eval "$(pyenv init -)"
+   ```
 
-    ````bash
-    nano ~/.bashrc
-    ````
+3. Salve: `Ctrl+O`, `Enter`, `Ctrl+X`.
 
-2. Adicione os comandos do pyenv ao arquivo: No final do arquivo, adicione as seguintes linhas:
+4. Atualize o shell:
+   ```bash
+   source ~/.bashrc
+   ```
 
-    ```bash
-    export PYENV_ROOT="$HOME/.pyenv"
-    export PATH="$PYENV_ROOT/bin:$PATH"
-    eval "$(pyenv init --path)"
-    eval "$(pyenv init -)"
-    ```
-
-3. Salve o aruivo apertando:
-
-    - `CTRL + O`
-    - `Enter`
-    - `CTRL + X`
-
-### Verificação:
-
+### Verificação
 ```bash
 pyenv --version
 ```
 
 ---
 
-## 📦 Instalação do Poetry
+## 📦 Configuração do Poetry
 
-### Dependências:
-
+### Dependências
 ```bash
-sudo apt install curl python3-pip -y
+sudo apt install -y curl python3-pip
 ```
 
-### Instalação:
-
+### Instalação
 ```bash
 curl -sSL https://install.python-poetry.org | python3 -
 ```
 
-### Configuração:
-
+### Configuração
 ```bash
 export PATH="$HOME/.local/bin:$PATH"
 source ~/.bashrc
 ```
 
-### Verificação:
-
+### Verificação
 ```bash
 poetry --version
 ```
 
 ---
 
-## 🧠 Integração com IDE (VSCode)
+## 📂 Configuração do Git
 
-1. Crie o projeto e abra com o **VSCode**.
-2. Use `Ctrl + J` para abrir o terminal integrado.
-3. Clique na setinha do terminal e selecione **Ubuntu (WSL)**.
-
----
-
-## 🛠️ Configurando o Pyenv no Projeto
-
-Com o terminal já aberto no VSCode e o ambiente WSL ativo:
-
-1. Liste todas as versões disponíveis do Python:
-    ```bash
-    pyenv install --list
-    ```
-
-2. Escolha uma versão e instale, por exemplo:
-    ```bash
-    pyenv install 3.7.0
-    ```
-
-3. Verifique se a instalação foi concluída com sucesso:
-    ```bash
-    pyenv versions
-    ```
-
-4. Configure o Python local para o projeto atual:
-    ```bash
-    pyenv local 3.7.0
-    ```
-
-    Isso criará um arquivo `.python-version` no diretório atual, indicando que o projeto está usando essa versão do Python.
-
----
-
-## 🚧 Criando um Projeto com Poetry
-
+### Instalação
+Git já está incluído nas dependências do Pyenv. Verifique:
 ```bash
-poetry new project-test
+git --version
 ```
 
-Edite o `pyproject.toml` com as informações do seu projeto e pacote principal.
+### Configuração Inicial
+1. Configure nome e e-mail:
+   ```bash
+   git config --global user.name "Seu Nome"
+   git config --global user.email "seu.email@exemplo.com"
+   ```
 
-Exemplos:
+2. Configure o editor padrão (exemplo: nano):
+   ```bash
+   git config --global core.editor nano
+   ```
 
+### Comandos Git Essenciais
+- **Iniciar um repositório**:
+  ```bash
+  git init
+  git add .
+  git commit -m "Initial commit"
+  ```
+
+- **Clonar um repositório**:
+  ```bash
+  git clone https://github.com/usuario/repositorio.git
+  ```
+
+- **Adicionar e confirmar alterações**:
+  ```bash
+  git add .              # Adiciona todas as alterações
+  git commit -m "Descrição da alteração"
+  ```
+
+- **Verificar status**:
+  ```bash
+  git status
+  ```
+
+- **Ver histórico de commits**:
+  ```bash
+  git log --oneline
+  ```
+
+- **Criar e mudar para uma branch**:
+  ```bash
+  git checkout -b nome-da-branch
+  ```
+
+- **Enviar alterações para o repositório remoto**:
+  ```bash
+  git push origin nome-da-branch
+  ```
+
+- **Atualizar repositório local**:
+  ```bash
+  git pull origin main
+  ```
+
+- **Mesclar branch**:
+  ```bash
+  git checkout main
+  git merge nome-da-branch
+  ```
+
+- **Resolver conflitos** (edite os arquivos conflitantes, depois):
+  ```bash
+  git add .
+  git commit
+  ```
+
+---
+
+## 🧠 Integração com VSCode
+
+1. Abra o projeto no VSCode.
+2. Abra o terminal integrado: `Ctrl+J`.
+3. Selecione **Ubuntu (WSL)** no menu do terminal.
+
+---
+
+## 🛠️ Configurando o Projeto
+
+1. Liste versões do Python disponíveis:
+   ```bash
+   pyenv install --list
+   ```
+
+2. Instale uma versão (exemplo: 3.9.0):
+   ```bash
+   pyenv install 3.9.0
+   ```
+
+3. Verifique:
+   ```bash
+   pyenv versions
+   ```
+
+4. Defina a versão local:
+   ```bash
+   pyenv local 3.9.0
+   ```
+
+---
+
+## 🚧 Criando Projeto com Poetry
+
+```bash
+poetry new meu-projeto
+cd meu-projeto
+```
+
+Edite `pyproject.toml` para configurar o projeto:
 ```toml
-# Estrutura: src/project_test
-packages = [{ include = "project_test", from = "src" }]
+[tool.poetry]
+name = "meu-projeto"
+version = "0.1.0"
+description = "Descrição do projeto"
+authors = ["Seu Nome <seu.email@exemplo.com>"]
 
-# Estrutura: app/project_test
-packages = [{ include = "project_test", from = "app" }]
+[tool.poetry.dependencies]
+python = "^3.9"
 
-# Estrutura direta: app
-packages = [{ include = "app" }]
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
 ```
 
 ---
 
 ## 📚 Gerenciando Dependências
 
-### Criando e ativando ambiente virtual:
-1. Baixe o poetry shell:
-
-    ```bash
-    poetry self add poetry-plugin-shell
-    ```
-
-1. Ative o ambiente virtual:
-
-    ```bash
-    poetry shell
-    ```
-
-### Adicionando dependências:
-
+### Ativar Ambiente Virtual
 ```bash
-poetry add "requests<2.28"
+poetry shell
 ```
 
-### Instalando todas as dependências do projeto:
+### Adicionar Dependências
+```bash
+poetry add requests
+```
 
+### Instalar Dependências
 ```bash
 poetry install
 ```
 
-### Reescreva o arquivo poetry.lock:
-
+### Atualizar `poetry.lock`
 ```bash
 poetry lock
 ```
@@ -269,95 +326,67 @@ poetry lock
 ## ▶️ Executando o Projeto
 
 ```bash
-poetry run python meu_codigo.py
+poetry run python main.py
 ```
+
 ---
 
-### Exemplo de docker-compose:
+## 🐳 Docker Compose Exemplo
 
-1. No diretorio crie um arquivo `docker-compose.yml` e adicione algo semelhante ao abaixo dentro dele:
+1. Crie `docker-compose.yml`:
+   ```yaml
+   version: '3.9'
+   services:
+     app:
+       build:
+         context: .
+         dockerfile: Dockerfile
+       container_name: meu-projeto
+       ports:
+         - "8000:8000"
+       volumes:
+         - .:/app
+       command: poetry run python main.py
+       restart: unless-stopped
+   ```
 
-  ```yml
-  version: '3.9'
+2. Crie `Dockerfile`:
+   ```dockerfile
+   FROM python:3.9-slim
+   WORKDIR /app
+   COPY pyproject.toml poetry.lock ./
+   RUN pip install poetry && poetry install --no-dev
+   COPY . .
+   EXPOSE 8000
+   CMD ["poetry", "run", "python", "main.py"]
+   ```
 
-  services:
-    api:
-      build:
-        context: .
-        dockerfile: Dockerfile
-      container_name: project-test # Aqui coloque o nome que deseja dar ao container
-      ports:
-        - "5000:5000" # Aqui coloque a porta que deseja mapear, se for a 8000, use 8000:8000
-      env_file:
-        - .env # Aqui coloque o caminho para o arquivo .env se tiver
-      volumes:
-        - .:/app # Aqui coloque o caminho para o projeto
-      command: python run.py
-      restart: unless-stopped
-  ```
-
-2. Crie um arquivo `Dockerfile` e adicione algo semelhante ao abaixo dentro dele:
-
-  ```
-  # Escolha a versão do Python que desejar
-  FROM python:3.7-slim-buster 
-  
-  # Instala as dependências do sistema
-  RUN apt-get update && \
-      apt-get install -y \
-      build-essential gcc libffi-dev libssl-dev && \
-      rm -rf /var/lib/apt/lists/*
-  
-  RUN apt-get update && apt-get install -y gcc g++ libffi-dev libssl-dev
-  
-  # Cria o diretório de trabalho
-  
-  WORKDIR /app
-  
-  # Copia o arquivo requirements.txt e instala as dependências
-  
-  COPY requirements.txt .
-  RUN python -m pip install --upgrade pip
-  RUN pip install --no-cache-dir -r requirements.txt
-  
-  # Copia o restante do projeto
-  
-  COPY . .
-  
-  # Expose a porta 5000
-  
-  EXPOSE 5000
-  
-  # Comando para executar o projeto
-  
-  CMD ["python", "run.py"]
-  ```
-
-3. Rode o comando para subir o conteiner. Se não precisar reconstruir a imagem então não precisa do `--build`:
-
+3. Execute:
    ```bash
    docker compose up --build
    ```
 
 ---
 
-## ✅ Verificação rápida
+## ✅ Verificação Rápida
 
-- `docker run hello-world` → Docker OK
-- `pyenv --version` → Pyenv OK
-- `poetry --version` → Poetry OK
-- `.python-version` criado → Python local OK
-- `poetry env info` mostra Python certo? → Virtualenv OK
+- Docker: `docker run hello-world`
+- Pyenv: `pyenv --version`
+- Poetry: `poetry --version`
+- Git: `git --version`
+- Python local: Verifique `.python-version`
+- Ambiente virtual: `poetry env info`
 
 ---
 
 ## 🧠 Extras
 
-- Repositório oficial do [Pyenv](https://github.com/pyenv/pyenv)
-- Documentação do [Poetry](https://python-poetry.org/docs/)
-- Página do [WSL](https://learn.microsoft.com/pt-br/windows/wsl/)
-- Testado no Ubuntu via WSL 2 com sucesso 🎉
+- [Pyenv](https://github.com/pyenv/pyenv)
+- [Poetry](https://python-poetry.org/docs/)
+- [WSL](https://learn.microsoft.com/pt-br/windows/wsl/)
+- [Git](https://git-scm.com/doc)
+- Testado no Ubuntu via WSL 2 🎉
 
 ---
 
-Feito com 💻 e café por Ruben Adriel
+Feito com 💻 e ☕ por Ruben Adriel
