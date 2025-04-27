@@ -208,10 +208,33 @@ git --version
   git status
   ```
 
-- **Ver histórico de commits**:
+- **Ver histórico de commits resumido**:
   ```bash
   git log --oneline
   ```
+
+- **Ver histórico com as mudanças no codigo**:
+  ```bash
+  git log -p
+  ```
+
+- **Ver histórico com uma linha do tempo**:
+  ```bash
+  git log --graph
+  ```
+
+- **Ver histórico com campos customizados**:
+  ```bash
+  git log --format="%H %an"
+  ```
+
+  - Para ver todos formatos para os campo:
+    1. No terminal digite
+      ```bash
+      git log --help
+      ```
+
+    2. Aperte `/` e depois digite `%H`
 
 - **Criar e mudar para uma branch**:
   ```bash
