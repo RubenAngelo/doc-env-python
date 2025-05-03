@@ -218,6 +218,11 @@ git --version
   git log -p
   ```
 
+- **Ver mudanças em um commit especifico**:
+  ```bash
+  git show hash-do-commit-especifico
+  ```
+
 - **Ver histórico com uma linha do tempo**:
   ```bash
   git log --graph
@@ -235,6 +240,16 @@ git --version
       ```
 
     2. Aperte `/` e depois digite `%H`
+
+- **Comparando as mudanças no projeto ainda não commitada com a do ultimo commit**:
+  ```bash
+  git diff
+  ```
+
+- **Comparando as mudanças entre diferentes commits**:
+  ```bash
+  git diff hash-do-ultimo-commit..hash-do-commit-antigo
+  ```
 
 - **Criar e mudar para uma branch**:
   ```bash
