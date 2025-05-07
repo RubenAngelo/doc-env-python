@@ -256,6 +256,16 @@ git --version
   git checkout -b nome-da-branch
   ```
 
+  - **Excluir e mudar para uma branch**:
+  ```bash
+  git branch -D nome-da-branch
+  ```
+
+  - **Mudar para uma branch existente**:
+  ```bash
+  git switch nome-da-branch
+  ```
+
 - **Enviar alterações para o repositório remoto**:
   ```bash
   git push origin nome-da-branch
@@ -264,6 +274,11 @@ git --version
 - **Atualizar repositório local**:
   ```bash
   git pull origin main
+  ```
+
+- **Aplicar commits de outra branch na branch atual**:
+  ```bash
+  git rebase main
   ```
 
 - **Mesclar branch**:
@@ -293,6 +308,65 @@ git --version
   git commit --amend -m "Descrição da alteração"
   ```
 
+- **Guardar alteração sem usar commits**:
+  ```bash
+  git stash push -m "Descrição da alteração"
+  ```
+
+- **Acessar alteração que não usou commit**:
+  ```bash
+  git stash pop
+  ```
+
+- **Acessar lista de alterações que não usam commit**:
+  ```bash
+  git stash list
+  ```
+
+- **Acessar alteração apartir do indice do stash list**:
+  ```bash
+  git stash apply 1
+  ```
+
+- **Excluir todas as alterações não commitadas**:
+  ```bash
+  git restore .
+  ```
+
+- **Excluir todas as alterações na staged area**:
+  ```bash
+  git restore --staged .
+  ```
+
+- **Criando tag pra um commit (caso não digite o sh do commit, a tag será criada para o head)**:
+  ```bash
+  git tag -a v0.1.0 hash-do-commit -m "Descrição da alteração"
+  ```
+
+- **Excluindo tag**:
+  ```bash
+  git tag -d v0.1.0
+  ```
+
+- **Listar todas as tags**:
+  ```bash
+  git tag
+  ```
+
+- **Enviar a tag para o repositório remoto**:
+  ```bash
+  git push origin v0.1.0
+  ```
+
+- **Pegar um commit ja existente para a branch atual**:
+  ```bash
+  git cherry-pick hash-do-commit
+  ```
+
+- **Mostra quais commits mexeram em cada linha do codigo**:
+  ```bash
+  git blame nome-do-arquivo
+  ```
 
 ---
 
