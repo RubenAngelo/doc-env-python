@@ -192,6 +192,16 @@ git --version
   git commit -m "Initial commit"
   ```
 
+- **Sincronizar repositorio git com github**:
+  ```bash
+  git remote add origin https://github.com/seu-usuario/seu-repositorio.git
+  ```
+
+- **Enviar seus Commits para o GitHub na branch principal**:
+  ```bash
+  git push -u origin main
+  ```
+
 - **Clonar um repositório**:
   ```bash
   git clone https://github.com/usuario/repositorio.git
